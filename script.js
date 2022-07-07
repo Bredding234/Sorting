@@ -1,7 +1,7 @@
 const draggable_list = document.getElementById("draggable-list");
 const check = document.getElementById("check");
 const check2 = document.getElementById("check2");
-
+const btn = document.querySelector(".btn");
 const richestPeople = [
     'Jeff Bezos',
     "Elon Musk",
@@ -21,25 +21,51 @@ let dragStartIndex;
 
 createList();
 // does not work
-function sortOrder(){
-    const personName = listItem.querySelector('.draggable').innerText.trim();
+function AscSortOrder(){
+   // const personName = listItem.querySelector('.draggable').innerText.trim();
 
-    let len=richestPeople.length;
-	for(let i=0; i<len; i++){
-    	let pos=i;
-        for(let j=i+1; j<len; j++){
-        	if(richestPeople[j]<richestPeople[pos])
-           		pos=j; 
-          }
-          if(i!=pos){
-          let temp=richestPeople[i];
-                richestPeople[i]=richestPeople[pos];
-                richestPeople[pos]=temp;
-          }  
-      }    	
-    //points.sort(function(a, b){return a - b});
-    document.getElementById("demo").innerHTML = richestPeople;    
+    richestPeople.sort(function(a, b){return a - b});
+
+
+    document.getElementById("demo").innerHTML = richestPeople; 
+    
 }
+
+
+
+
+function sortOrder() {
+
+
+for(let item of draggable_list.querySelectorAll("li")){
+    item.remove();
+}    
+
+    const sortedRichestPeople = richestPeople.sort(function (a, b) {
+      if (a < b) {
+        return -1;
+      }
+      return 1;
+    });
+  
+    for(let person of sortedRichestPeople){
+        const listItem = document.createElement('li');
+        listItem.classList.add('right');
+        
+      listItem.innerHTML = `
+        <span class="number">${parseInt(richestPeople[person]) + 1}</span>
+         <div class="draggable" draggable = "true">
+            <p class="person-name">${person}</p>
+            <i class="fas fa-grip-lines"></i>
+        </div>     
+        `;
+        draggable_list.append(listItem);
+    }
+
+
+  }
+  
+
 
 
 
@@ -145,7 +171,11 @@ function addEventListener() {
 }
 
 
+btn.addEventListener("click", sortOrder);
 check.addEventListener("click", checkOrder);
+
+
+// second one
 document.getElementById("demo").innerHTML = richestPeople;    
 
 //check2.addEventListener("click", sortReviews);
