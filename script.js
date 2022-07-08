@@ -2,6 +2,7 @@ const draggable_list = document.getElementById("draggable-list");
 const check = document.getElementById("check");
 const check2 = document.getElementById("check2");
 const btn = document.querySelector(".btn");
+const btn2 = document.querySelector(".btnDesc");
 const richestPeople = [
     'Jeff Bezos',
     "Elon Musk",
@@ -35,38 +36,54 @@ function AscSortOrder(){
 
 
 function sortOrder() {
+    // create empty array to append the each rich person's name
+    const names = [];
 
-
-for(let item of draggable_list.querySelectorAll("li")){
-    item.remove();
-}    
-
-    const sortedRichestPeople = richestPeople.sort(function (a, b) {
-      if (a < b) {
-        return -1;
-      }
-      return 1;
+    listItems.forEach(item => {
+        // get name of each person
+        let name = item.children[1].children[0].innerText;
+        // then append it to the empty array
+        names.push(name);
     });
-  
-    for(let person of sortedRichestPeople){
-        const listItem = document.createElement('li');
-        listItem.classList.add('right');
-        
-      listItem.innerHTML = `
-        <span class="number">${parseInt(richestPeople[person]) + 1}</span>
-         <div class="draggable" draggable = "true">
-            <p class="person-name">${person}</p>
-            <i class="fas fa-grip-lines"></i>
-        </div>     
-        `;
-        draggable_list.append(listItem);
-    }
 
+    // sort the names
+    const sortedNames = names.sort((a, b) => {
+        if (a < b) {
+            return -1;
+        }
+        return 1;
+    });
 
-  }
-  
+    // then change update the names to the sorted names
+    listItems.forEach((item, index) => {
+        item.children[1].children[0].innerText = sortedNames[index];
+    });
+}
 
+function sortDescOrder() {
+    // create empty array to append the each rich person's name
+    const names = [];
 
+    listItems.forEach(item => {
+        // get name of each person
+        let name = item.children[1].children[0].innerText;
+        // then append it to the empty array
+        names.push(name);
+    });
+
+    // sort the names
+    const sortedNames = names.sort((a, b) => {
+        if (a < b) {
+            return 1;
+        }
+        return -1;
+    });
+
+    // then change update the names to the sorted names
+    listItems.forEach((item, index) => {
+        item.children[1].children[0].innerText = sortedNames[index];
+    });
+}
 
 
 // works
@@ -86,7 +103,7 @@ function createList() {
 
             listItem.innerHTML = `
         <span class="number">${index + 1}</span>
-         <div class="draggable" draggable = "true">
+         <div class="draggable" draggable= "true">
             <p class="person-name">${person}</p>
             <i class="fas fa-grip-lines"></i>
         </div>     
@@ -172,6 +189,7 @@ function addEventListener() {
 
 
 btn.addEventListener("click", sortOrder);
+btn2.addEventListener("click", sortDescOrder);
 check.addEventListener("click", checkOrder);
 
 
